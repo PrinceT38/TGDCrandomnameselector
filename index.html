@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Name Selector</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>KerE Wo Do by the Grace Dominion Church</h1>
+
+  <!-- Admin Login Section -->
+  <div id="adminLoginSection">
+    <h2>Admin Access</h2>
+    <input type="password" id="adminPassword" placeholder="Enter admin password">
+    <button onclick="adminLogin()">Login</button>
+  </div>
+
+  <!-- Admin Name Input Section -->
+  <div id="nameInputSection" style="display: none;">
+    <h2>Admin: Load Names</h2>
+    <textarea id="nameList" placeholder="Enter names, one per line"></textarea><br>
+    <button onclick="loadNames()">Load Names</button>
+    <button onclick="resetSelection()">Reset Selection</button>
+    <button onclick="adminLogout()">Logout</button>
+    <h3>Utilization Report</h3>
+    <ul id="reportBoard"></ul>
+    
+    <!-- New Section to Display Selections -->
+    <h3>Selections</h3>
+    <ul id="selectionsBoard"></ul>
+  </div>
+
+  <!-- Selection Section -->
+  <div id="selectSection">
+    <h2>Make a Selection</h2>
+    <input type="text" id="userName" placeholder="Enter your name">
+    <button id="selectButton" onclick="selectName()">Select Random Name</button>
+    <div id="resultSection">
+      <p id="result"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
