@@ -1,0 +1,48 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+h1 {
+  color: #333;
+}
+
+#adminLoginSection, #nameInputSection, #selectSection, #resultSection {
+  margin: 20px;
+}
+
+input, button {
+  padding: 10px;
+  margin: 5px;
+  font-size: 1rem;
+}
+
+#nameList {
+  width: 300px;
+  height: 100px;
+  margin-top: 10px;
+}
+
+#reportBoard {
+  list-style: none;
+  padding: 0;
+}
+
+#result {
+  font-size: 1.5rem;
+  color: green;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+#resultSection {
+  display: none;
+}
+
+.disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
