@@ -3,7 +3,7 @@ let names = [];
 let hasSelected = false;
 let usedNames = new Set();
 let selectedNames = []; // New array to track selected names and users
-const adminPassword = "admin321"; // Change this password for security
+const adminPassword = "admin123"; // Change this password for security
 
 // Load names from textarea input
 function loadNames() {
@@ -57,7 +57,7 @@ function adminLogout() {
   document.getElementById("adminLoginSection").style.display = "block";
 }
 
-// Select a random name
+// Select a random name, excluding names similar to the user's name
 function selectName() {
   // Get the user's name
   const userName = document.getElementById("userName").value.trim();
@@ -85,10 +85,31 @@ function selectName() {
     return;
   }
 
-  // Select a random name from available names
-  const randomIndex = Math.floor(Math.random() * availableNames.length);
-  const selectedName = availableNames[randomIndex];
-  
+  // Find a random name that does not resemble the user's name
+  let selectedName;
+  let attempts = 0; // To prevent an infinite loop if no valid name is found
+
+  do {
+    const randomIndex = Math.floor(Math.random() * availableNames.length);
+    selectedName = availableNames[randomIndex];
+
+    // Convert both names to lowercase to check for similarity
+    const lowerUserName = userName.toLowerCase();
+    const lowerSelectedName = selectedName.toLowerCase();
+
+    attempts++;
+    // Continue if the selected name resembles the user's name and limit to 10 attempts
+  } while (
+    (lowerUserName.includes(lowerSelectedName) || lowerSelectedName.includes(lowerUserName)) &&
+    attempts < 10
+  );
+
+  // If no valid name is found, inform the user
+  if (attempts >= 10) {
+    alert("Couldn't find a unique name. Please try again.");
+    return;
+  }
+
   // Display the congratulatory message to the user
   document.getElementById("result").textContent = `Hurray! you have selected ${selectedName}`;
   document.getElementById("resultSection").style.display = "block";
