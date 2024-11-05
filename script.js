@@ -1,8 +1,8 @@
 // Variables to store loaded names, selection state, and admin access
 let names = [];
-let hasSelected = false;
-let usedNames = new Set();
-let selectedNames = []; // New array to track selected names and users
+let hasSelected = localStorage.getItem("hasSelected") === "true"; // Retrieve selection state
+let usedNames = new Set(JSON.parse(localStorage.getItem("usedNames") || "[]")); // Retrieve used names
+let selectedNames = JSON.parse(localStorage.getItem("selectedNames") || "[]"); // Retrieve selected names
 const adminPassword = "admin123"; // Change this password for security
 
 // Load names from textarea input
@@ -37,6 +37,13 @@ function updateSelectionsBoard() {
     listItem.textContent = `${entry.userName} selected ${entry.name}`;
     selectionsBoard.appendChild(listItem);
   });
+}
+
+// Save the current selection state to localStorage
+function saveSelectionState() {
+  localStorage.setItem("usedNames", JSON.stringify([...usedNames]));
+  localStorage.setItem("selectedNames", JSON.stringify(selectedNames));
+  localStorage.setItem("hasSelected", hasSelected);
 }
 
 // Admin login to access the name input section
@@ -117,11 +124,12 @@ function selectName() {
   // Mark the name as used, add user and selected name to the list
   usedNames.add(selectedName);
   selectedNames.push({ userName, name: selectedName }); // Save the user's name and their selection
+  hasSelected = true; // Mark selection as done
+  saveSelectionState(); // Save updated state to localStorage
   updateReportBoard();
   updateSelectionsBoard(); // Update the selections board for the admin
 
   // Disable further selections
-  hasSelected = true;
   document.getElementById("selectButton").classList.add("disabled");
   document.getElementById("selectButton").setAttribute("disabled", "true");
 }
@@ -131,6 +139,7 @@ function resetSelection() {
   usedNames.clear(); // Clear the set of used names
   selectedNames = []; // Clear the selected names list
   hasSelected = false; // Reset selection status for users
+  localStorage.clear(); // Clear saved data in localStorage
   document.getElementById("result").textContent = ""; // Clear previous result
   document.getElementById("resultSection").style.display = "none"; // Hide result section
 
@@ -143,3 +152,11 @@ function resetSelection() {
   updateSelectionsBoard();
   alert("Selection reset successfully!");
 }
+
+// Load saved selections and update the display on page load
+document.addEventListener("DOMContentLoaded", () => {
+  if (selectedNames.length > 0) {
+    updateReportBoard();
+    updateSelectionsBoard();
+  }
+});
